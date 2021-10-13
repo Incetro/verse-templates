@@ -1,0 +1,57 @@
+{% include 'header' %}
+
+import VERSE
+
+// MARK: - {{ module_info.name }}Composer
+
+/// `{{ module_info.name }}` module composer
+///
+/// `{{ module_info.name }}Composer` is responsible for making `{{ module_info.name }}` module instances.
+/// You can choose a specification from `Specification` which defines your module type.
+{{ privacy }}final class {{ module_info.name }}Composer {
+
+    // MARK: - Specification
+
+    {{ privacy }}enum Specification {
+
+        case real
+        case mock
+
+        var isMock: Bool {
+            self == .mock
+        }
+
+        var isReal: Bool {
+            self == .real
+        }
+    }
+
+    // MARK: - Properties
+
+    /// Current composer instance
+    private static let composer = {{ module_info.name }}Composer()
+
+    // MARK: - Composition
+
+    {{ privacy }}static func view(specification: Specification = .real) -> {{ module_info.name }}View {
+        {{ module_info.name }}View(
+            store: store(specification: specification)
+        )
+    }
+
+    {{ privacy }}static func store(specification: Specification = .real) -> {{ module_info.name }}Store {
+        {{ module_info.name }}Store(
+            initialState: {{ module_info.name }}State(),
+            reducer: {{ module_name_uncap }}Reducer,
+            environment: {{ module_info.name }}Environment()
+        )
+    }
+}
+
+// MARK: - Aliases
+
+/// `Reducer` alias
+{{ privacy }}typealias {{ module_info.name }}Reducer = Reducer<{{ module_info.name }}State, {{ module_info.name }}Action, {{ module_info.name }}Environment>
+
+/// `Store` alias
+{{ privacy }}typealias {{ module_info.name }}Store = Store<{{ module_info.name }}State, {{ module_info.name }}Action>

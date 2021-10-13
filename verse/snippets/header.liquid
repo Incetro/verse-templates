@@ -1,0 +1,19 @@
+//
+//  {{ module_info.file_name }}
+//  {{ module_info.project_name }}
+//
+//  Created by {{ developer.name }} on {{ date }}.
+//  Copyright © {{ year }} {{ developer.company }}. All rights reserved.
+//
+
+{%- assign module_name_tail_count = module_info.name | size | minus: 1 -%}
+{%- assign module_name_first_letter = module_info.name | slice: 0 | downcase -%}
+{%- assign module_name_without_first_letter = module_info.name | slice: 1, module_name_tail_count -%}
+{%- assign module_name_uncap = module_name_first_letter | append: module_name_without_first_letter -%}
+
+{%- assign space = " " -%}
+{% if custom_parameters.privacy != nil %}
+  {% assign privacy = custom_parameters.privacy | append: space %}
+{% else %}
+  {% assign privacy = "" %}
+{% endif %}

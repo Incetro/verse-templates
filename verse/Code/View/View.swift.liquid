@@ -1,0 +1,27 @@
+{% include 'header' %}
+
+import VERSE
+import SwiftUI
+
+// MARK: - {{ module_info.name }}View
+
+/// A visual representation of `{{ module_info.name }}` module.
+/// Here we define the view that displays the feature.
+/// It holds onto a `Store<{{ module_info.name }}State, {{ module_info.name }}Action>` so that it can observe
+/// all changes to the state and re-render, and we can send all user actions
+/// to the store so that state changes.
+public struct {{ module_info.name }}View: View {
+
+    // MARK: - Properties
+
+    /// `{{ module_info.name }}` module `Store` instance
+    let store: Store<{{ module_info.name }}State, {{ module_info.name }}Action>
+
+    // MARK: - View
+
+    public var body: some View {
+        WithViewStore(store) { viewStore in
+            Text("{{ module_info.name }}View")
+        }
+    }
+}
