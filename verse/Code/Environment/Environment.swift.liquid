@@ -1,5 +1,6 @@
 {% include 'header' %}
 
+import VERSE
 import Foundation
 
 // MARK: - {{ module_info.name }}Environment
@@ -9,4 +10,42 @@ import Foundation
 /// `Environment` is a type that holds any dependencies the feature needs,
 /// such as API clients, analytics clients, etc.
 {{ privacy }}struct {{ module_info.name }}Environment {
+
+    // MARK: - Properties
+}
+
+// MARK: - Convenience
+
+/// Here we have some assistive properties which will help us
+/// to use `{{ module_info.name }}` module with `pullback`, `forEach`, etc. more easily
+{{ privacy }}extension {{ module_info.name }}Environment {
+
+    /// Real environment wrapped in this property.
+    ///
+    /// Instead of this:
+    ///
+    ///     {{ module_name_uncap }}Reducer.pullback(
+    ///         state: \.{{ module_name_uncap }},
+    ///         action: /MainAction.{{ module_name_uncap }},
+    ///         environment: {{ module_info.name }}Composer.environment()
+    ///     )
+    /// 
+    /// Or even this:
+    ///
+    ///     {{ module_name_uncap }}Reducer.pullback(
+    ///         state: \.{{ module_name_uncap }},
+    ///         action: /MainAction.{{ module_name_uncap }},
+    ///         environment: {{ module_info.name }}Environment()
+    ///     )
+    ///
+    /// You can use this:
+    /// 
+    ///     {{ module_name_uncap }}Reducer.pullback(
+    ///         state: \.{{ module_name_uncap }},
+    ///         action: /MainAction.{{ module_name_uncap }},
+    ///         environment: .real
+    ///     )
+    static var real: Self {
+        {{ module_info.name }}Composer().environment()
+    }
 }

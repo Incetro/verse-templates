@@ -1,6 +1,8 @@
 {% include 'header' %}
 
 import VERSE
+import Swinject
+import Foundation
 
 // MARK: - {{ module_info.name }}Composer
 
@@ -10,41 +12,44 @@ import VERSE
 /// You can choose a specification from `Specification` which defines your module type.
 {{ privacy }}final class {{ module_info.name }}Composer {
 
-    // MARK: - Specification
-
-    {{ privacy }}enum Specification {
-
-        case real
-        case mock
-
-        var isMock: Bool {
-            self == .mock
-        }
-
-        var isReal: Bool {
-            self == .real
-        }
-    }
-
     // MARK: - Properties
 
-    /// Current composer instance
-    private static let composer = {{ module_info.name }}Composer()
+    /// Dependency injection container
+    private let container: Container
+
+    // MARK: - Initializers
+
+    /// Default initializer
+    /// - Parameter container: Dependency injection container
+    {{ privacy }}init(container: Container = AssembliesHolder.container) {
+        self.container = container
+    }
 
     // MARK: - Composition
 
-    {{ privacy }}static func view(specification: Specification = .real) -> {{ module_info.name }}View {
-        {{ module_info.name }}View(
-            store: store(specification: specification)
-        )
+    /// Create a new `{{ module_info.name }}View` instance for the given specification
+    /// - Parameter specification: target specification value
+    /// - Returns: a new `{{ module_info.name }}View` instance for the given specification
+    {{ privacy }}func view() -> {{ module_info.name }}View {
+        {{ module_info.name }}View(store: store())
     }
 
-    {{ privacy }}static func store(specification: Specification = .real) -> {{ module_info.name }}Store {
+    /// Create a new `{{ module_info.name }}Store` instance for the given specification
+    /// - Parameter specification: target specification value
+    /// - Returns: a new `{{ module_info.name }}Store` instance for the given specification
+    {{ privacy }}func store() -> {{ module_info.name }}Store {
         {{ module_info.name }}Store(
             initialState: {{ module_info.name }}State(),
             reducer: {{ module_name_uncap }}Reducer,
-            environment: {{ module_info.name }}Environment()
+            environment: environment()
         )
+    }
+
+    /// Create a new `{{ module_info.name }}Environment` instance for the given specification
+    /// - Parameter specification: target specification value
+    /// - Returns: a new `{{ module_info.name }}Environment` instance for the given specification
+    {{ privacy }}func environment() -> {{ module_info.name }}Environment {
+        container.resolve({{ module_info.name }}Environment.self).unwrap()
     }
 }
 

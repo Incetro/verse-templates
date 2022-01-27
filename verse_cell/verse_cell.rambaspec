@@ -1,0 +1,24 @@
+# Template information section
+name: "verse"
+summary: "Swift VERSE module template"
+author: "incetro"
+version: "0.0.1"
+license: "MIT"
+
+# The declarations for code files
+code_files:
+
+# Action
+- {name: Action/Action.swift, path: Code/Action/Action.swift.liquid}
+
+# View
+- {name: View/View.swift, path: Code/View/View.swift.liquid}
+
+# State
+- {name: State/State.swift, path: Code/State/State.swift.liquid}
+
+# Reducer
+- {name: Reducer/Reducer.swift, path: Code/Reducer/Reducer.swift.liquid}
+
+# Environment
+- {name: Environment/Environment.swift, path: Code/Environment/Environment.swift.liquid}
